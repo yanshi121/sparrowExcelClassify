@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>上传Excel文件</title>
+</head>
+<body>
+<div>
+    <h3 style="display: none" id="show">程序正在预处理数据，处理完成后将跳转到下一个步骤，如果文件较大，请耐心等候</h3>
+</div>
+<form id="upload-form" enctype="multipart/form-data" action="http://127.0.0.1:5000/upload" method="post">
+    <label for="excelFile">请选择一个Excel文件（.xlsx或.xls）:</label>
+    <input type="file" id="excelFile" name="excelFile" accept=".xlsx, .xls" required>
+    <input type="submit" value="上传">
+</form>
+
+<div style="display: none" id="progressDiv">
+    <progress id="progressBar" value="0" max="100" style="width: 300px;"></progress>
+    <span id="progressText">0%</span>
+</div>
+
+<script>
+    document.getElementById('upload-form').addEventListener('submit', function(event) {
+        let progressDiv = document.getElementById("progressDiv")
+        progressDiv.style.display = "block"
+        event.preventDefault();
+        var formData = new FormData(this);
+        var xhr = new XMLHttpRequest();
+        var progressBar = document.getElementById('progressBar');
+        var progressText = document.getElementById('progressText');
+        xhr.upload.onprogress = function(e) {
+            if (e.lengthComputable) {
+                var percentComplete = (e.loaded / e.total) * 100;
+                progressBar.value = percentComplete;
+                progressText.textContent = percentComplete + '%';
+            }
+        };
+        let show = document.getElementById("show")
+        show.style.display = "block"
+        xhr.onload = function() {
+            if (this.status === 200) {
+                window.location.href = "http://127.0.0.1:5000/deal"
+            } else if (this.status === 499) {
+                alert('没有文件部分！');
+            } else if (this.status === 498){
+                alert("没有选择文件！")
+            } else if (this.status === 497){
+                alert("只允许上传Excel文件！")
+            }
+        };
+
+        xhr.open('POST', 'http://127.0.0.1:5000/upload', true);
+        xhr.send(formData);
+    });
+</script>
+
+</body>
+</html>

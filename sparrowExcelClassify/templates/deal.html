@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>数据选择</title>
+</head>
+<body>
+<form id="root" action="http://127.0.0.1:5000/sheet_deal" method="post">
+    <input type="submit" value="开始分拣" id="submit">
+</form>
+</body>
+<script src="/static/js/deal.js"></script>
+<script>
+    let sheet_names = {{ sheet_name | tojson }}
+    document.addEventListener('DOMContentLoaded', function () {
+        setData()
+    });
+    let button = document.getElementById('submit');
+    button.addEventListener('click', chick);
+</script>
+</html>
