@@ -1,7 +1,21 @@
 import os
 import shutil
 import zipfile
+import webbrowser
 from openpyxl import load_workbook
+
+
+def is_login(user):
+    if user.get("username") is None:
+        return False
+    else:
+        if user.get("password") is None:
+            return False
+        return True
+
+
+def open_url():
+    webbrowser.open("http://127.0.0.1:5000")
 
 
 def create():

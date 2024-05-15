@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <title>登录</title>
+</head>
+<body>
+<script>
+    let status = '{{ status }}'
+    if (status === "用户名错误"){
+        alert("用户名错误")
+    }else if (status === "密码错误"){
+        alert("密码错误")
+    }
+</script>
+<form action="http://127.0.0.1:5000/" method="post">
+    <label for="username">用户名:</label>
+    <input type="text" name="username" id="username">
+    <br>
+    <label for="password">密码:</label>
+    <input type="password" name="password" id="password">
+    <br>
+    <input type="submit" value="登录" onclick="isNull(event)">
+</form>
+<script>
+    function isNull(event) {
+        let username = document.getElementById("username")
+        if (username.value === ''){
+            event.preventDefault();
+            alert("用户名不能为空")
+        }
+        let password = document.getElementById("password")
+        if (password.value === ''){
+            event.preventDefault();
+            alert("密码不能为空")
+        }
+    }
+</script>
+</body>
+</html>
