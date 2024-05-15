@@ -4,6 +4,10 @@ import zipfile
 from openpyxl import load_workbook
 
 
+def create():
+    os.makedirs("./static/uploads/split_data", exist_ok=True)
+
+
 def allowed_file(filename):
     ALLOWED_EXTENSIONS = {'xlsx', 'xls'}
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS

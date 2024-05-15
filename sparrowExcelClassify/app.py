@@ -2,6 +2,7 @@ import os
 import sys
 import time
 import threading
+import webbrowser
 from flask import Flask
 from flask import request
 from flask import jsonify
@@ -18,6 +19,8 @@ from sparrowExcelClassify.tools import get_split_information
 from sparrowExcelClassify.tools import get_split_choose_information
 from sparrowExcelClassify.tools import DealExcel
 from sparrowExcelClassify.tools import compress_folder
+from sparrowExcelClassify.tools import create
+
 
 app = Flask(__name__)
 CORS(app)
@@ -27,6 +30,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 class SparrowExcelClassify(object):
     def __init__(self, flask_app):
+        create()
         self.app = flask_app
         self.user = {
             'username': None,
@@ -98,6 +102,11 @@ class SparrowExcelClassify(object):
             return render_template("download.html")
 
 
+def open_url():
+    webbrowser.open("http://127.0.0.1:5000")
+
+
 if __name__ == '__main__':
     run = SparrowExcelClassify(app)
-    app.run(debug=True)
+    threading.Thread(target=app.run()).start()
+    threading.Thread(target=open_url).start()
